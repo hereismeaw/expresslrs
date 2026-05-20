@@ -15,6 +15,10 @@
 #include "devWIFI.h"
 #include "devButton.h"
 #include "devVTX.h"
+#include "ConnexInsights.h"
+#if FEATURE_CUSTOM_150_960_PROFILE
+#include "devRFProfile.h"
+#endif
 #if defined(PLATFORM_ESP32)
 #include "devScreen.h"
 #include "devBLE.h"
@@ -114,6 +118,9 @@ device_affinity_t ui_devices[] = {
   {&Thermal_device, 0},
   {&PDET_device, 0},
 #endif
+#endif
+#if FEATURE_CUSTOM_150_960_PROFILE
+  {&RFProfile_device, 1},
 #endif
   {&VTX_device, 0}
 };
@@ -708,6 +715,7 @@ void ICACHE_RAM_ATTR timerCallback()
   TelemetryRcvPhase = ttrpTransmitting;
 
   SendRCdataToRF();
+  ConnexInsights_Tick();
 }
 
 static void UARTdisconnected()
@@ -1467,6 +1475,13 @@ void setup()
       ChangeRadioParams();
 
       LbtCcaTimerStart();
+#if FEATURE_SUBGHZ_ONLY_LR1121
+      if (!ConnexInsights_Init())
+      {
+        setConnectionState(radioFailed);
+        return;
+      }
+#endif
       hwTimer::init(nullptr, timerCallback);
       setConnectionState(noCrossfire);
     }

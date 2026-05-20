@@ -25,6 +25,37 @@
 #include "native.h"
 #endif
 
+// ============================================================
+// ConnexInsights Sub-GHz custom target feature flags
+// These are set by the target .ini / compile_profile.py output.
+// Defaults here are intentionally 0 so normal upstream targets
+// are completely unaffected.
+// ============================================================
+#ifndef FEATURE_SUBGHZ_ONLY_LR1121
+#define FEATURE_SUBGHZ_ONLY_LR1121          0
+#endif
+#ifndef FEATURE_CUSTOM_150_960_PROFILE
+#define FEATURE_CUSTOM_150_960_PROFILE      0
+#endif
+#ifndef FEATURE_DUAL_LR1121_MAKE_BEFORE_BREAK
+#define FEATURE_DUAL_LR1121_MAKE_BEFORE_BREAK 0
+#endif
+#ifndef FEATURE_REGULATORY_EXCLUSION_MASK
+#define FEATURE_REGULATORY_EXCLUSION_MASK   0
+#endif
+#ifndef FEATURE_RF_PROFILE_AUDIT_LOG
+#define FEATURE_RF_PROFILE_AUDIT_LOG        0
+#endif
+
+// Compile-time assertion: custom sub-GHz targets must never define 2.4 GHz domain
+#if FEATURE_SUBGHZ_ONLY_LR1121 && defined(Regulatory_Domain_ISM_2400)
+#error "FEATURE_SUBGHZ_ONLY_LR1121 and Regulatory_Domain_ISM_2400 are mutually exclusive."
+#endif
+#if FEATURE_SUBGHZ_ONLY_LR1121 && defined(RADIO_SX128X)
+#error "FEATURE_SUBGHZ_ONLY_LR1121 requires RADIO_LR1121, not RADIO_SX128X."
+#endif
+// ============================================================
+
 /*
  * Features
  * define features based on pins before defining pins as UNDEF_PIN
@@ -62,6 +93,7 @@ extern bool pwmSerialDefined;
         defined(Regulatory_Domain_EU_868) || defined(Regulatory_Domain_IN_866) || \
         defined(Regulatory_Domain_AU_433) || defined(Regulatory_Domain_EU_433) || \
         defined(Regulatory_Domain_US_433) || defined(Regulatory_Domain_US_433_WIDE) || \
+        defined(Regulatory_Domain_Custom150_960) || \
         defined(UNIT_TEST))
 #error "Regulatory_Domain is not defined for 900MHz device. Check user_defines.txt!"
 #endif

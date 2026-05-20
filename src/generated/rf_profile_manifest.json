@@ -1,0 +1,169 @@
+{
+  "config_hash": "95c282e6a94e46f9e35948b955510e3381e8839659a29a31861896605e6edf0a",
+  "generated_at": "2026-05-20T18:20:14.526804+00:00",
+  "legal_profile_id": "NBTC_SANDBOX_001",
+  "legal_profile_version": "1.0.0",
+  "guard_band_mhz": 4,
+  "hardware_min_mhz": 151,
+  "hardware_max_mhz": 959,
+  "2400_mhz_disabled": true,
+  "868_mhz_excluded": true,
+  "915_mhz_excluded": true,
+  "zone_summary": {
+    "LOW": {
+      "count": 300,
+      "min": 151,
+      "max": 450.0
+    },
+    "MID": {
+      "count": 109,
+      "min": 451,
+      "max": 760.0
+    },
+    "HIGH": {
+      "count": 181,
+      "min": 761,
+      "max": 959.0
+    }
+  },
+  "included_count": 590,
+  "excluded_count": 243,
+  "excluded_ranges": [
+    {
+      "lo": 494.0,
+      "hi": 502.0,
+      "reason": "DTV ch24 (498.0 MHz)"
+    },
+    {
+      "lo": 502.0,
+      "hi": 510.0,
+      "reason": "DTV ch26 (506.0 MHz)"
+    },
+    {
+      "lo": 510.0,
+      "hi": 518.0,
+      "reason": "DTV ch28 (514.0 MHz)"
+    },
+    {
+      "lo": 518.0,
+      "hi": 526.0,
+      "reason": "DTV ch30 (522.0 MHz)"
+    },
+    {
+      "lo": 526.0,
+      "hi": 534.0,
+      "reason": "DTV ch32 (530.0 MHz)"
+    },
+    {
+      "lo": 534.0,
+      "hi": 542.0,
+      "reason": "DTV ch34 (538.0 MHz)"
+    },
+    {
+      "lo": 542.0,
+      "hi": 550.0,
+      "reason": "DTV ch36 (546.0 MHz)"
+    },
+    {
+      "lo": 550.0,
+      "hi": 558.0,
+      "reason": "DTV ch38 (554.0 MHz)"
+    },
+    {
+      "lo": 558.0,
+      "hi": 566.0,
+      "reason": "DTV ch40 (562.0 MHz)"
+    },
+    {
+      "lo": 566.0,
+      "hi": 574.0,
+      "reason": "DTV ch42 (570.0 MHz)"
+    },
+    {
+      "lo": 574.0,
+      "hi": 582.0,
+      "reason": "DTV ch44 (578.0 MHz)"
+    },
+    {
+      "lo": 582.0,
+      "hi": 590.0,
+      "reason": "DTV ch46 (586.0 MHz)"
+    },
+    {
+      "lo": 590.0,
+      "hi": 598.0,
+      "reason": "DTV ch48 (594.0 MHz)"
+    },
+    {
+      "lo": 598.0,
+      "hi": 606.0,
+      "reason": "DTV ch50 (602.0 MHz)"
+    },
+    {
+      "lo": 606.0,
+      "hi": 614.0,
+      "reason": "DTV ch52 (610.0 MHz)"
+    },
+    {
+      "lo": 614.0,
+      "hi": 622.0,
+      "reason": "DTV ch54 (618.0 MHz)"
+    },
+    {
+      "lo": 622.0,
+      "hi": 630.0,
+      "reason": "DTV ch56 (626.0 MHz)"
+    },
+    {
+      "lo": 630.0,
+      "hi": 638.0,
+      "reason": "DTV ch58 (634.0 MHz)"
+    },
+    {
+      "lo": 638.0,
+      "hi": 646.0,
+      "reason": "DTV ch60 (642.0 MHz)"
+    },
+    {
+      "lo": 646.0,
+      "hi": 654.0,
+      "reason": "DTV ch62 (650.0 MHz)"
+    },
+    {
+      "lo": 654.0,
+      "hi": 662.0,
+      "reason": "DTV ch64 (658.0 MHz)"
+    },
+    {
+      "lo": 662.0,
+      "hi": 670.0,
+      "reason": "DTV ch66 (666.0 MHz)"
+    },
+    {
+      "lo": 670.0,
+      "hi": 678.0,
+      "reason": "DTV ch68 (674.0 MHz)"
+    },
+    {
+      "lo": 678.0,
+      "hi": 686.0,
+      "reason": "DTV ch70 (682.0 MHz)"
+    },
+    {
+      "lo": 686.0,
+      "hi": 694.0,
+      "reason": "DTV ch72 (690.0 MHz)"
+    },
+    {
+      "lo": 864.0,
+      "hi": 872.0,
+      "reason": "868 MHz ISM (excluded by default)"
+    },
+    {
+      "lo": 911.0,
+      "hi": 919.0,
+      "reason": "915 MHz ISM (excluded by default)"
+    }
+  ],
+  "warnings": []
+}

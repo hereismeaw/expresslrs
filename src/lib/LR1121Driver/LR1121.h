@@ -39,6 +39,15 @@ public:
                 uint8_t PreambleLength, bool InvertIQ, uint8_t PayloadLength, RadioBandMod::Combined modulation,
                 uint8_t fskSyncWord1, uint8_t fskSyncWord2, SX12XX_Radio_Number_t radioNumber = SX12XX_Radio_All);
     void SetFrequencyReg(uint32_t freq, SX12XX_Radio_Number_t radioNumber, bool doRx = false, uint32_t rxTime = 0);
+
+#if FEATURE_REGULATORY_EXCLUSION_MASK
+    // Checked variant: validates freq_mhz against the active exclusion mask before
+    // calling SetFrequencyReg.  Returns false and logs to AuditLog if blocked.
+    // Always prefer this over SetFrequencyReg on custom targets.
+    bool SetFrequencyChecked(uint32_t freq_mhz, SX12XX_Radio_Number_t radioNumber,
+                              bool doRx = false, uint32_t rxTime = 0);
+#endif
+
     void SetOutputPower(int8_t power, bool isSubGHz = true);
     void startCWTest(uint32_t freq, SX12XX_Radio_Number_t radioNumber);
 

@@ -28,6 +28,8 @@ const fhss_config_t domains[] = {
 };
 
 #if defined(RADIO_LR1121)
+#if !FEATURE_SUBGHZ_ONLY_LR1121
+// Standard dual-band: primary sub-GHz domain above + secondary 2.4 GHz
 const fhss_config_t domainsDualBand[] = {
     {
     #if defined(Regulatory_Domain_EU_CE_2400)
@@ -37,7 +39,14 @@ const fhss_config_t domainsDualBand[] = {
     #endif
     FREQ_HZ_TO_REG_VAL(2400400000), FREQ_HZ_TO_REG_VAL(2479400000), 80, 2440000000}
 };
-#endif
+#else
+// Custom sub-GHz-only target: both paths use sub-GHz zones.
+// The secondary FHSS config is populated at runtime by FHSS_LoadSubGHzZone().
+// A placeholder is defined here so the linker is satisfied.
+static fhss_config_t s_subghz_zone_b = {"SubGHz_B", 0, 0, 0, 0};
+const fhss_config_t *const domainsDualBand = &s_subghz_zone_b;
+#endif // FEATURE_SUBGHZ_ONLY_LR1121
+#endif // RADIO_LR1121
 
 #elif defined(RADIO_SX128X)
 #include "SX1280Driver.h"
@@ -218,3 +227,41 @@ bool isUsingPrimaryFreqBand()
 {
     return FHSSusePrimaryFreqBand;
 }
+
+// ---------------------------------------------------------------------------
+// Custom sub-GHz zone loading (FEATURE_CUSTOM_150_960_PROFILE only)
+// ---------------------------------------------------------------------------
+#if FEATURE_CUSTOM_150_960_PROFILE
+#include "RFProfile.h"
+
+// Two runtime FHSS config slots, one per RF path
+static fhss_config_t s_zone_slot[2];
+
+bool FHSS_LoadSubGHzZone(uint8_t zone_idx, uint8_t zone_name)
+{
+    extern RFProfile_t g_activeRFProfile;
+
+    if (zone_idx > 1 || zone_name >= RF_ZONE_COUNT) return false;
+
+    const RFZone_t *zone = RFProfile_GetZone(&g_activeRFProfile, (rfzone_name_e)zone_name);
+    if (!zone || zone->freq_count == 0) return false;
+
+    s_zone_slot[zone_idx].domain     = (zone_name == RF_ZONE_LOW)  ? "SubGHz_LOW" :
+                                       (zone_name == RF_ZONE_MID)  ? "SubGHz_MID" :
+                                                                      "SubGHz_HIGH";
+    s_zone_slot[zone_idx].freq_start  = FREQ_HZ_TO_REG_VAL((uint64_t)zone->allowed_freq_mhz[0] * 1000000UL);
+    s_zone_slot[zone_idx].freq_stop   = FREQ_HZ_TO_REG_VAL((uint64_t)zone->allowed_freq_mhz[zone->freq_count - 1] * 1000000UL);
+    s_zone_slot[zone_idx].freq_count  = zone->freq_count;
+    s_zone_slot[zone_idx].freq_center = FREQ_HZ_TO_REG_VAL((uint64_t)zone->allowed_freq_mhz[zone->freq_count / 2] * 1000000UL);
+
+    if (zone_idx == 0) FHSSconfig        = &s_zone_slot[0];
+    else               FHSSconfigDualBand = &s_zone_slot[1];
+
+    DBGLN("FHSS zone[%u] loaded: %s  %u freqs  %u–%u MHz",
+          zone_idx, s_zone_slot[zone_idx].domain,
+          zone->freq_count,
+          zone->allowed_freq_mhz[0],
+          zone->allowed_freq_mhz[zone->freq_count - 1]);
+    return true;
+}
+#endif // FEATURE_CUSTOM_150_960_PROFILE

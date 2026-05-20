@@ -968,3 +968,28 @@ int LR1121Driver::EndUpdate()
     lr1121UpdateState = nullptr;
     return retCode;
 }
+
+// ---------------------------------------------------------------------------
+// ConnexInsights exclusion-checked frequency setter
+// Only compiled when FEATURE_REGULATORY_EXCLUSION_MASK is active.
+// ---------------------------------------------------------------------------
+#if FEATURE_REGULATORY_EXCLUSION_MASK
+#include "ConnexInsights.h"
+#include "AuditLog.h"
+
+bool LR1121Driver::SetFrequencyChecked(uint32_t freq_mhz,
+                                        SX12XX_Radio_Number_t radioNumber,
+                                        bool doRx, uint32_t rxTime)
+{
+    if (!ConnexInsights_IsFreqAllowed(freq_mhz))
+    {
+        DBGLN("[LR1121] SetFrequencyChecked BLOCKED: %u MHz on radio %u",
+              freq_mhz, (uint8_t)radioNumber);
+        AuditLog_ExclusionHit(freq_mhz, "SetFrequencyChecked blocked");
+        return false;
+    }
+    // freq_mhz → Hz for the register value expected by the base driver
+    SetFrequencyReg(freq_mhz * 1000000UL, radioNumber, doRx, rxTime);
+    return true;
+}
+#endif // FEATURE_REGULATORY_EXCLUSION_MASK

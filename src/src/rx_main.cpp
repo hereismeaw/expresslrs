@@ -38,6 +38,7 @@
 #include "RXEndpoint.h"
 #include "RXOTAConnector.h"
 #include "rx-serial/devSerialIO.h"
+#include "ConnexInsights.h"
 
 #include <LittleFS.h>
 #if defined(PLATFORM_ESP8266)
@@ -779,6 +780,7 @@ void ICACHE_RAM_ATTR HWtimerCallbackTock()
     updateDiversity();
     bool tlmSent = HandleSendDataDl();
     updatePhaseLock();
+    ConnexInsights_Tick();
 
     #if defined(DEBUG_RX_SCOREBOARD)
     static bool lastPacketWasTelemetry = false;
@@ -2031,6 +2033,13 @@ void setup()
 
             DataUlReceiver.SetDataToReceive(DataUlBuffer, ELRS_DATA_UL_BUFFER);
             Radio.RXnb();
+#if FEATURE_SUBGHZ_ONLY_LR1121
+            if (!ConnexInsights_Init())
+            {
+                setConnectionState(radioFailed);
+                return;
+            }
+#endif
             hwTimer::init(HWtimerCallbackTick, HWtimerCallbackTock);
         }
     }

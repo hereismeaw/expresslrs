@@ -60,6 +60,13 @@ void FHSSrandomiseFHSSsequenceBuild(uint32_t seed, uint32_t freqCount, uint_fast
 // add domain info for Lua
 void addDomainInfo(char *version_domain, uint8_t maxlen);
 
+#if FEATURE_CUSTOM_150_960_PROFILE
+// Load sub-GHz custom profile zone into an FHSS config slot.
+// zone_idx: 0=PRIMARY, 1=SECONDARY (maps to A/B paths).
+// Returns false if the zone has no valid frequencies or the profile is not loaded.
+bool FHSS_LoadSubGHzZone(uint8_t zone_idx, uint8_t zone_name);
+#endif
+
 static inline uint32_t FHSSgetMinimumFreq(void)
 {
     return FHSSconfig->freq_start;
