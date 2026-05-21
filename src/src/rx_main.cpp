@@ -1151,6 +1151,25 @@ bool ICACHE_RAM_ATTR ProcessRFPacket(SX12xxDriverCommon::rx_status const status)
     // Store the LQ/RSSI/Antenna
     Radio.GetLastPacketStats();
     getRFlinkInfo();
+#if FEATURE_DUAL_LR1121_MAKE_BEFORE_BREAK
+    {
+        uint8_t cur_lq   = LQCalc.getLQ();
+        uint8_t pkt_loss = (cur_lq < 100) ? (100 - cur_lq) : 0;
+        ConnexInsights_UpdateHealth(RF_PATH_A,
+            cur_lq,
+            (int16_t)Radio.LastPacketRSSI,
+            (int8_t)SNR_DESCALE(Radio.LastPacketSNRRaw),
+            pkt_loss);
+        if (GPIO_PIN_NSS_2 != UNDEF_PIN)
+        {
+            ConnexInsights_UpdateHealth(RF_PATH_B,
+                Radio.hasSecondRadioGotData ? 100U : 0U,
+                (int16_t)Radio.LastPacketRSSI2,
+                0,
+                Radio.hasSecondRadioGotData ? 0U : 100U);
+        }
+    }
+#endif
 
     // Adjusts FreqCorrection for RX freq offset
     if (Radio.FrequencyErrorAvailable())

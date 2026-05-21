@@ -1,0 +1,40 @@
+{
+  "$schema": "digital_tv_exclusion.schema.json",
+  "metadata": {
+    "source": "DigitalTV_Console.xlsx (NBTC Thailand DVB-T2 channel plan)",
+    "generated_by": "manual / frequency_plan_compiler",
+    "version": "1.0.0",
+    "guard_band_mhz": 4,
+    "convention": "lo_mhz and hi_mhz are both inclusive. C header writes these directly; RFProfile_IsExcluded() uses freq >= lo && freq <= hi.",
+    "note": "Thailand DVB-T2: channels 24-72 (even only), centre = 498 + (ch-24)/2 * 8 MHz, guard = 4 MHz each side. 868/915 ISM excluded by default for NBTC sandbox."
+  },
+  "exclusion_ranges": [
+    { "lo_mhz": 494, "hi_mhz": 502, "reason": "DTV ch24 (498 MHz)" },
+    { "lo_mhz": 502, "hi_mhz": 510, "reason": "DTV ch26 (506 MHz)" },
+    { "lo_mhz": 510, "hi_mhz": 518, "reason": "DTV ch28 (514 MHz)" },
+    { "lo_mhz": 518, "hi_mhz": 526, "reason": "DTV ch30 (522 MHz)" },
+    { "lo_mhz": 526, "hi_mhz": 534, "reason": "DTV ch32 (530 MHz)" },
+    { "lo_mhz": 534, "hi_mhz": 542, "reason": "DTV ch34 (538 MHz)" },
+    { "lo_mhz": 542, "hi_mhz": 550, "reason": "DTV ch36 (546 MHz)" },
+    { "lo_mhz": 550, "hi_mhz": 558, "reason": "DTV ch38 (554 MHz)" },
+    { "lo_mhz": 558, "hi_mhz": 566, "reason": "DTV ch40 (562 MHz)" },
+    { "lo_mhz": 566, "hi_mhz": 574, "reason": "DTV ch42 (570 MHz)" },
+    { "lo_mhz": 574, "hi_mhz": 582, "reason": "DTV ch44 (578 MHz)" },
+    { "lo_mhz": 582, "hi_mhz": 590, "reason": "DTV ch46 (586 MHz)" },
+    { "lo_mhz": 590, "hi_mhz": 598, "reason": "DTV ch48 (594 MHz)" },
+    { "lo_mhz": 598, "hi_mhz": 606, "reason": "DTV ch50 (602 MHz)" },
+    { "lo_mhz": 606, "hi_mhz": 614, "reason": "DTV ch52 (610 MHz)" },
+    { "lo_mhz": 614, "hi_mhz": 622, "reason": "DTV ch54 (618 MHz)" },
+    { "lo_mhz": 622, "hi_mhz": 630, "reason": "DTV ch56 (626 MHz)" },
+    { "lo_mhz": 630, "hi_mhz": 638, "reason": "DTV ch58 (634 MHz)" },
+    { "lo_mhz": 638, "hi_mhz": 646, "reason": "DTV ch60 (642 MHz)" },
+    { "lo_mhz": 646, "hi_mhz": 654, "reason": "DTV ch62 (650 MHz)" },
+    { "lo_mhz": 654, "hi_mhz": 662, "reason": "DTV ch64 (658 MHz)" },
+    { "lo_mhz": 662, "hi_mhz": 670, "reason": "DTV ch66 (666 MHz)" },
+    { "lo_mhz": 670, "hi_mhz": 678, "reason": "DTV ch68 (674 MHz)" },
+    { "lo_mhz": 678, "hi_mhz": 686, "reason": "DTV ch70 (682 MHz)" },
+    { "lo_mhz": 686, "hi_mhz": 694, "reason": "DTV ch72 (690 MHz)" },
+    { "lo_mhz": 864, "hi_mhz": 872, "reason": "868 MHz ISM (excluded by default)" },
+    { "lo_mhz": 911, "hi_mhz": 919, "reason": "915 MHz ISM (excluded by default)" }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "legal_profile.schema.json",
+  "legal_profile_id": "NBTC_SANDBOX_001",
+  "legal_profile_version": "1.0.0",
+  "authority": "NBTC / Royal Thai Army / Royal Thai Air Force — Authorized RF sandbox",
+  "guard_band_mhz": 4,
+  "zones": {
+    "LOW": {
+      "min_mhz": 151,
+      "max_mhz": 450,
+      "max_power_dbm": 27,
+      "dwell_policy": "DWELL_ADAPTIVE"
+    },
+    "MID": {
+      "min_mhz": 451,
+      "max_mhz": 760,
+      "max_power_dbm": 27,
+      "dwell_policy": "DWELL_ADAPTIVE"
+    },
+    "HIGH": {
+      "min_mhz": 761,
+      "max_mhz": 959,
+      "max_power_dbm": 27,
+      "dwell_policy": "DWELL_ADAPTIVE"
+    }
+  },
+  "pair_mode": {
+    "primary_zone": "LOW",
+    "secondary_zone": "HIGH",
+    "diversity_mode": "DIVERSITY_MAKE_BEFORE_BREAK",
+    "transition_policy": "TRANSITION_THRESHOLD_BASED",
+    "lq_threshold": 60,
+    "rssi_threshold_dbm": -100,
+    "confirm_window_ms": 500,
+    "scan_timeout_ms": 3000,
+    "lock_timeout_ms": 1000
+  }
+}

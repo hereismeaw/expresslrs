@@ -262,6 +262,25 @@ static bool ICACHE_RAM_ATTR ProcessDownlinkPacket(SX12xxDriverCommon::rx_status 
   linkStats.downlink_SNR = SNR_DESCALE(Radio.LastPacketSNRRaw);
   linkStats.downlink_RSSI_1 = Radio.LastPacketRSSI;
   linkStats.downlink_RSSI_2 = Radio.LastPacketRSSI2;
+#if FEATURE_DUAL_LR1121_MAKE_BEFORE_BREAK
+  {
+    uint8_t dl_lq    = LqTQly.getLQ();
+    uint8_t pkt_loss = (dl_lq < 100) ? (100 - dl_lq) : 0;
+    ConnexInsights_UpdateHealth(RF_PATH_A,
+        dl_lq,
+        (int16_t)Radio.LastPacketRSSI,
+        (int8_t)SNR_DESCALE(Radio.LastPacketSNRRaw),
+        pkt_loss);
+    if (Radio.hasSecondRadioGotData)
+    {
+        ConnexInsights_UpdateHealth(RF_PATH_B,
+            100U,
+            (int16_t)Radio.LastPacketRSSI2,
+            0,
+            0U);
+    }
+  }
+#endif
 
   // Full res mode
   if (OtaIsFullRes)
